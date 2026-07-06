@@ -1,0 +1,36 @@
+# Dependencies & builds
+node_modules/
+dist/
+build/
+app/build/
+.gradle/
+.externalNativeBuild/
+.cxx/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*credentials*
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.iml
+local.properties
+
+# Terraform
+.terraform/
+**/.terraform/**
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform.lock.hcl
+
+# Android
+/captures

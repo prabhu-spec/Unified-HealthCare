@@ -1,0 +1,389 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id
+  email          String    @unique
+  password       String
+  firstName      String
+  lastName       String
+  role           String
+  hospitalId     String?
+  patientId      String?
+  specialization String?
+  gender         String?
+  bloodType      String?
+  isVerified     Boolean   @default(true)
+  isDeleted      Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  lastLogin      DateTime?
+}
+
+model Hospital {
+  id                String  @id
+  name              String
+  street            String?
+  city              String?
+  state             String?
+  postalCode        String?
+  phone             String?
+  url               String?
+  orgType           String? @default("Acute Care Hospital")
+  rating            Float?
+  emergencyServices Boolean @default(true)
+}
+
+model Patient {
+  id            String    @id
+  hospitalId    String
+  firstName     String
+  lastName      String
+  gender        String
+  birthDate     String
+  mrn           String
+  phone         String?
+  email         String?
+  street        String?
+  city          String?
+  state         String?
+  postalCode    String?
+  visitStatus   String    @default("outpatient")
+  room          String?
+  consultNotes  String?
+  admittedAt    DateTime?
+  dischargedAt  DateTime?
+  lastConsultAt DateTime?
+}
+
+model Appointment {
+  id          String @id
+  patientId   String
+  patientName String
+  hospitalId  String
+  doctorId    String
+  doctorName  String
+  date        String
+  time        String
+  type        String
+  status      String
+}
+
+model PatientHistory {
+  id          String @id
+  patientId   String
+  patientName String
+  hospitalId  String
+  date        String
+  type        String
+  provider    String
+  summary     String
+}
+
+model MedicalRecord {
+  id          String @id
+  patientId   String
+  patientName String
+  hospitalId  String
+  date        String
+  category    String
+  name        String
+  value       String
+  provider    String
+}
+
+model Receipt {
+  id          String @id
+  patientId   String
+  patientName String
+  hospitalId  String
+  date        String
+  amount      Float
+  description String
+  status      String
+}
+
+model Schedule {
+  id          String   @id
+  hospitalId  String
+  staffId     String
+  staffName   String
+  staffRole   String
+  patientId   String?
+  patientName String?
+  title       String
+  type        String
+  date        String
+  startTime   String
+  endTime     String
+  notes       String?
+  status      String
+  createdAt   DateTime @default(now())
+}
+
+model Prescription {
+  id                String   @id
+  patientId         String
+  patientName       String
+  medication        String
+  dosage            String
+  prescribedBy      String
+  prescribedByEmail String?
+  status            String
+  createdAt         DateTime @default(now())
+}
+
+model MedicineOrder {
+  id                String   @id
+  patientId         String
+  patientName       String
+  medication        String
+  dosage            String
+  prescribedBy      String
+  prescribedByEmail String?
+  status            String
+  rejectionReason   String?
+  createdAt         DateTime @default(now())
+}
+
+model RestockRequest {
+  id          String   @id
+  item        String
+  quantity    Int
+  hospitalId  String
+  requestedBy String
+  status      String
+  createdAt   DateTime @default(now())
+}
+
+model InventoryItem {
+  id           String  @id
+  name         String
+  quantity     Int
+  reorderLevel Int     @default(20)
+  hospitalId   String?
+  status       String
+}
+
+model PrescriptionVerification {
+  id           String   @id
+  patientName  String
+  prescription String
+  status       String
+  createdAt    DateTime @default(now())
+}
+
+model BloodInventory {
+  id     String @id
+  type   String
+  units  Int
+  status String
+}
+
+model BloodRequest {
+  id          String @id
+  bloodType   String
+  units       Int
+  hospitalId  String
+  requestedBy String
+  urgency     String
+  status      String
+}
+
+model DonationRequest {
+  id            String @id
+  donorName     String
+  bloodType     String
+  preferredDate String
+  status        String
+}
+
+model HospitalDoctor {
+  id             String @id
+  name           String
+  specialization String
+  hospitalId     String
+  status         String
+}
+
+model HospitalStaff {
+  id         String @id
+  name       String
+  department String
+  hospitalId String
+  shift      String
+  status     String
+}
+
+model HospitalBilling {
+  id          String @id
+  patientName String
+  amount      Float
+  hospitalId  String
+  status      String
+}
+
+model HospitalApplication {
+  id            String  @id
+  hospitalId    String
+  hospitalName  String
+  applicant     String
+  applicantEmail String?
+  status        String
+}
+
+model InsuranceRenewal {
+  id       String @id
+  holder   String
+  policy   String
+  dueDate  String
+  status   String
+}
+
+model Policy {
+  id     String @id
+  name   String
+  status String
+}
+
+model Applicant {
+  id       String @id
+  name     String
+  policyId String
+  status   String
+}
+
+model PolicyStatusRow {
+  id      String @id
+  holder  String
+  policy  String
+  dueDate String
+  status  String
+}
+
+model Bed {
+  id         String @id
+  hospitalId String
+  ward       String
+  total      Int
+  available  Int
+  status     String
+}
+
+model SystemLog {
+  id        String   @id
+  timestamp DateTime @default(now())
+  userId    String
+  action    String
+  resource  String
+}
+
+model VideoAppointment {
+  id          String   @id
+  patientId   String
+  patientName String
+  doctorType  String
+  hospitalId  String
+  hospitalName String
+  date        String
+  time        String
+  status      String
+  roomName    String?
+  createdAt   DateTime @default(now())
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  purpose   String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email, purpose])
+}
+
+model DevicePushToken {
+  id         String   @id @default(cuid())
+  token      String
+  userId     String
+  role       String
+  hospitalId String?
+  patientId  String?
+  platform   String
+  updatedAt  DateTime @default(now())
+
+  @@unique([userId, token])
+  @@index([role, hospitalId])
+}
+
+model TelemetryHospitalConfig {
+  hospitalId      String @id
+  name            String
+  totalRooms      Int
+  roomNumberStart Int
+}
+
+model TelemetryPatient {
+  patientId          String  @id
+  fullName           String
+  hospitalId         String
+  room               String
+  assignedDoctorId   String?
+}
+
+model TelemetryDevice {
+  deviceId    String   @id
+  name        String
+  type        String
+  hospitalId  String
+  patientId   String?
+  lastSeenAt  DateTime?
+  lastBattery Float?
+}
+
+model VitalsSnapshot {
+  id         String   @id @default(cuid())
+  patientId  String
+  deviceId   String
+  hospitalId String
+  heartRate  Int
+  spo2       Int
+  temperature Float
+  systolic   Int
+  diastolic  Int
+  respiration Int
+  battery    Int
+  timestamp  DateTime @default(now())
+
+  @@index([patientId, timestamp])
+  @@index([hospitalId, timestamp])
+}
+
+model RoomPresenceRecord {
+  id              String   @id @default(cuid())
+  hospitalId      String
+  room            String
+  patientId       String
+  doctorUserId    String
+  doctorUsername  String
+  enteredAt       DateTime @default(now())
+
+  @@index([hospitalId, room])
+}
+
+model TelemetryNotificationRow {
+  id         String   @id
+  type       String
+  patientId  String
+  hospitalId String
+  payload    String
+  createdAt  DateTime @default(now())
+
+  @@index([hospitalId, createdAt])
+}

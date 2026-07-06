@@ -1,0 +1,44 @@
+on:
+  push:
+    branches: [main]
+    paths: ["backend/**"]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::260476742932:role/github-prod-deploy
+          aws-region: us-east-1
+
+      - name: Build & Push Image
+        run: |
+          aws ecr describe-repositories --repository-names healthcare-backend || \
+          aws ecr create-repository --repository-name healthcare-backend
+
+          aws ecr get-login-password | docker login \
+            --username AWS \
+            --password-stdin 260476742932.dkr.ecr.us-east-1.amazonaws.com
+
+          docker buildx build \
+            --platform linux/amd64 \
+            -t 260476742932.dkr.ecr.us-east-1.amazonaws.com/healthcare-backend:latest \
+            backend
+
+          docker push 260476742932.dkr.ecr.us-east-1.amazonaws.com/healthcare-backend:latest
+
+      - name: Deploy ECS
+        run: |
+          aws ecs update-service \
+            --cluster prod-cluster \
+            --service healthcare-backend \
+            --force-new-deployment

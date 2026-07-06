@@ -1,0 +1,17 @@
+node_modules
+dist
+build
+.env
+.env.*
+*.log
+.DS_Store
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform.lock.hcl
+
+# Terraform providers (absolute must-ignore)
+**/.terraform/**

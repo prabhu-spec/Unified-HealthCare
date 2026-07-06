@@ -1,0 +1,16 @@
+# AWS EC2 deployment — Elastic IP 34.235.222.220
+# Usage: docker compose -f docker-compose.yml -f docker-compose.ec2.yml up -d --build
+services:
+  backend:
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://34.235.222.220:5000
+        VITE_SOCKET_URL: http://34.235.222.220:5000
+    ports:
+      - "80:80"

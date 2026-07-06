@@ -1,0 +1,181 @@
+/**
+ * Clean bright healthcare UI — light surfaces, sky accent, no glass or heavy motion.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+.theme-dashboard {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f8fafc;
+  color: #0f172a;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+/* Shared card surface */
+.theme-dashboard .bubble-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.theme-dashboard .bubble-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  transform: none;
+}
+
+.theme-dashboard .bubble-card::before {
+  display: none;
+}
+
+.theme-dashboard h1,
+.theme-dashboard h2,
+.theme-dashboard h3,
+.theme-dashboard h4,
+.theme-dashboard h5,
+.theme-dashboard h6 {
+  font-family: inherit;
+  letter-spacing: -0.01em;
+  color: #0f172a;
+}
+
+.theme-dashboard main {
+  color: #0f172a;
+}
+
+.theme-dashboard ::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.theme-dashboard ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.theme-dashboard ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+/* Sidebar nav */
+.theme-dashboard .sidebar-nav-item {
+  animation: none;
+  border-radius: 8px;
+  color: #475569;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.theme-dashboard .sidebar-nav-item:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  transform: none;
+}
+
+.theme-dashboard .sidebar-nav-item.bg-sky-50,
+.theme-dashboard .sidebar-nav-item[class*="bg-sky"] {
+  background: #e0f2fe !important;
+  color: #0369a1 !important;
+  font-weight: 600;
+}
+
+/* Primary button utility */
+.theme-dashboard .btn-primary {
+  background: #0ea5e9;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  transition: background 0.15s ease;
+}
+
+.theme-dashboard .btn-primary:hover {
+  background: #0284c7;
+}
+
+/* Telemetry — same clean language as dashboard */
+.theme-dashboard .telemetry-surface {
+  color: #0f172a;
+}
+
+.theme-dashboard .telemetry-surface .text-heading {
+  color: #0f172a !important;
+}
+
+.theme-dashboard .telemetry-surface .text-muted {
+  color: #64748b !important;
+}
+
+.theme-dashboard .telemetry-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  color: #0f172a;
+}
+
+.theme-dashboard .telemetry-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  transform: none;
+}
+
+.theme-dashboard .telemetry-room-tile {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  color: #0f172a;
+  min-height: 132px;
+  padding: 1rem;
+  transition: border-color 0.15s ease;
+}
+
+.theme-dashboard .telemetry-room-tile:hover {
+  border-color: #0ea5e9;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.12);
+  transform: none;
+}
+
+.theme-dashboard .telemetry-room-tile--alert {
+  border-color: #fecaca;
+  background: #fffbfb;
+}
+
+.theme-dashboard .telemetry-room-tile--occupied {
+  border-color: #bae6fd;
+}
+
+.theme-dashboard .telemetry-metric {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.5rem 0.625rem;
+}
+
+.theme-dashboard .telemetry-metric--alert {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.theme-dashboard .telemetry-metric .telemetry-metric-label {
+  color: #64748b !important;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.theme-dashboard .telemetry-metric .telemetry-metric-value {
+  color: #0f172a !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.theme-dashboard .telemetry-stable {
+  animation: none;
+}

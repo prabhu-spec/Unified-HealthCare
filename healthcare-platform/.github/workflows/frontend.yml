@@ -1,0 +1,39 @@
+on:
+  push:
+    branches: [main]
+    paths: ["frontend/**"]
+    workflow_dispatch:
+
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::260476742932:role/github-prod-deploy
+          aws-region: us-east-1
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync frontend/out s3://ie-healthcare-web-prod --delete
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id <PROD_CLOUDFRONT_ID> \
+            --paths "/*"
